@@ -4,7 +4,9 @@ import axios from 'axios';
 
 class Form extends Component {
   state = {
-    name: ''
+    name: '',
+    error: '',
+    showError: false
   }
 
   onSubmit = (event) => {
@@ -20,6 +22,16 @@ class Form extends Component {
       });
 
       this.props.history.push('/');
+    }).catch(err => {
+      let message = err.response.data.message;
+
+      switch (message.code) {
+        case 11000:
+          this.setState({ error: 'This shop name has already been created.', showError: true });
+          break;
+        default:
+          return '';
+      }
     });
   }
 
@@ -31,8 +43,13 @@ class Form extends Component {
 
   render() {
     return (
-      <form onSubmit={this.onSubmit}>
+      <form className="shop-form" onSubmit={this.onSubmit}>
         <h3>Create Coffee Shop</h3>
+
+        {this.state.showError ? (
+          <p className="error-message">{this.state.error}</p>
+        ) : ''}
+
         <input onChange={this.handleChange} type="text" placeholder="Name of Shop" value={this.state.name} />
         <button>Submit</button>
       </form>

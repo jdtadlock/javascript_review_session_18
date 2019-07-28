@@ -28,11 +28,22 @@ class Main extends Component {
       <div>
         <h1>Main View</h1>
         {/* Loop through and show all shops */}
-        {this.state.shops.map(shop => (
-          <div key={shop.name} className="shop">
-            <h2>{shop.name}</h2>
-          </div>
-        ))}
+        <div className="shops">
+          {this.state.shops.map(shop => (
+            <div key={shop.name} className="shop">
+              <h2>{shop.name}</h2>
+
+              <div className="coffees">
+
+              </div>
+
+              <form className="column">
+                <input type="text" placeholder="Coffee Name" />
+                <button>Add Coffee</button>
+              </form>
+            </div>
+          ))}
+        </div>
       </div>
     )
   }

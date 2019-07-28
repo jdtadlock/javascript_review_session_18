@@ -9,7 +9,11 @@ if (mongoose.connection.readyState === 0)
 
 
 let ShopSchema = new Schema({
-    name: String,
+    name: {
+        type: String,
+        unique: [true, 'Shop name must be unique.']
+    },
+    coffees: [{ type: Schema.Types.ObjectId, ref: 'Coffee' }],
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
 });

@@ -1,7 +1,9 @@
+require('dotenv').config();
 const express = require('express');
 const PORT = 5000;
 // const apiRoutes = require('./routes/api_routes');
 const api_routes = require('./routes/api_routes');
+const auth_routes = require('./routes/auth_routes');
 
 const app = express();
 
@@ -12,6 +14,7 @@ app.use(express.json());
 
 // localhost:5000/api/<routes>
 app.use('/api', api_routes);
+app.use('/auth', auth_routes);
 
 app.listen(PORT, () => console.log('Listening on port %s', PORT));
 

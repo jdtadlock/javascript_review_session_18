@@ -1,5 +1,6 @@
 const router = require('express').Router();
-const { Shop } = require('../db');
+const { Shop, Coffee } = require('../db');
+const { isAuthenticated } = require('../auth');
 
 // // localhost:5000/api/test
 // router.get('/test', (req, res) => {
@@ -12,18 +13,43 @@ const { Shop } = require('../db');
 // });
 
 // localhost:5000/api/shops -- GET
-router.get('/shops', (req, res) => {
-  Shop.find({})
-    .then(shops => {
-      res.json({
-        shops: shops
-      });
-    });
-});
+
+// Shop.find({}).deleteMany({}).then(() => console.log('Shops removed'));
+// Coffee.find({}).deleteMany({}).then(() => console.log('Coffee removed'));
+
+// Shop.create({ name: 'Dunkin' }).then(shop => {
+//   let coffee = new Coffee({
+//     name: 'Columbian',
+//     type: 'dark',
+//     shopId: shop._id
+//   });
+
+//   coffee.save().then(coffee => {
+//     shop.coffees.push(coffee);
+//     shop.save().then(() => {
+//       console.log('worked');
+//     })
+//   });
+// });
+
+Shop.find({})
+  .populate('coffees')
+  .then(shops => {
+    console.log(shops[0].coffees[0]);
+  })
+
+// router.get('/shops', (req, res) => {
+//   Shop.find({})
+//     .then(shops => {
+//       res.json({
+//         shops: shops
+//       });
+//     });
+// });
 
 
 // localhost:5000/api/shop -- POST
-router.post('/shop', (req, res) => {
+router.post('/shop', isAuthenticated, (req, res) => {
   Shop.create({
     name: req.body.name
   }).then(shop => {
@@ -32,7 +58,7 @@ router.post('/shop', (req, res) => {
       shop: shop
     });
     // res.redirect('/');// Handlebars
-  })
+  }).catch(err => res.status(500).send({ message: err }));
 });
 
 

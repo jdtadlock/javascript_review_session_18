@@ -7,15 +7,17 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.row, .column {
+  display: flex;
+}
+
+.column {
+  flex-direction: column;
+}
+
 .main {
   padding: 25px 5%;
 }
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-}
-
 
 header {
   display: flex;
@@ -32,4 +34,26 @@ header a {
 
 header a.active {
   display: none;
+}
+
+.shops {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 200px);
+  grid-gap: 10px;
+  .shop {
+    border: 1px solid #555;
+    padding: 5px;
+    h2 {
+      text-align: center;
+      font-size: 1.1rem;
+    }
+  }
+}
+
+form.shop-form {
+  width: 380px;
+}
+
+form.shop-form .error-message {
+  color: red;
 }
